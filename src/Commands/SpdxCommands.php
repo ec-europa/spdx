@@ -63,20 +63,28 @@ class SpdxCommands extends DrushCommands {
       ]));
     }
 
+    $count = 0;
     foreach (glob($spdx_source . '*.rdf') as $rdf_file_path) {
       $graph = new Graph($graph_uri);
       $graph->parseFile($rdf_file_path);
       // There is a file that includes all the licenses and we don't need to
       // re-import them.
       // @see https://github.com/spdx/license-list-data/issues/48.
-      if (count($graph->toRdfPhp()) === 1) {
+      $licenses = $graph->allOfType('http://spdx.org/rdf/terms#License');
+      if (count($licenses) !== 1) {
         continue;
       }
       $graph_store = new GraphStore($connect_string);
       $graph_store->insert($graph);
 
-      $arguments = ['%file' => $rdf_file_path];
-      $this->logger()->success(dt('Imported file %file.', $arguments));
+      $count++;
+      $this->logger()->success(dt('Imported file %file.', [
+        '%file' => $rdf_file_path
+      ]));
     }
+
+    $this->logger()->success(dt('Finished importing %count licenses.', [
+      '%count' => $count,
+    ]));
   }
 }
