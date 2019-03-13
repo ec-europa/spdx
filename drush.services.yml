@@ -1,0 +1,5 @@
+services:
+  spdx.commands:
+    class: \Drupal\spdx\Commands\SpdxCommands
+    tags:
+      - { name: drush.command }
