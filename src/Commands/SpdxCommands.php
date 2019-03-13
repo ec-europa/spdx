@@ -16,7 +16,7 @@ use ReflectionClass;
 class SpdxCommands extends DrushCommands {
 
   /**
-   * Imports the SPDX licenses into the default sparql database.
+   * Imports the SPDX licenses into the default SPARQL database.
    *
    * @param string $graph_uri
    *   The graph to put the licenses in.
@@ -24,8 +24,11 @@ class SpdxCommands extends DrushCommands {
    *   An array of options.
    *
    * @command spdx:import
-   * @options clean Whether to clean the graph before importing the graphs.
+   * @option clean Whether to clean the graph before importing the graphs.
+   * @usage spdx:import "http://example.com/licenses"
+   *   Imports the licenses into the "http://example.com/licenses" graph.
    * @usage spdx:import "http://example.com/licenses" --clean
+   *   Imports the licenses into the graph but also cleans the graph first.
    *
    * @throws \ReflectionException
    *   Thrown if the class does not exist.
