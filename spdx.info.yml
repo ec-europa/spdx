@@ -1,0 +1,6 @@
+name: SPDX Licenses
+type: module
+description: A license management module.
+core: 8.x
+package: Joinup
+dependencies: { }

@@ -1,0 +1,23 @@
+{
+    "name": "ec-europa/spdx",
+    "description": "Allows to federate and manage the SPDX licences.",
+    "type": "drupal-module",
+    "require": {
+        "drupal/rdf_entity": ">=1.0.0-alpha12",
+        "spdx/license-list-data": "master"
+    },
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "spdx/license-list-data",
+                "version": "master",
+                "source": {
+                    "url": "https://github.com/spdx/license-list-data",
+                    "type": "git",
+                    "reference": "master"
+                }
+            }
+        }
+    ]
+}
