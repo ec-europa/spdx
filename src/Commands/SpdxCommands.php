@@ -66,6 +66,12 @@ class SpdxCommands extends DrushCommands {
     foreach (glob($spdx_source . '*.rdf') as $rdf_file_path) {
       $graph = new Graph($graph_uri);
       $graph->parseFile($rdf_file_path);
+      // There is a file that includes all the licenses and we don't need to
+      // re-import them.
+      // @see https://github.com/spdx/license-list-data/issues/48.
+      if (count($graph->toRdfPhp()) === 1) {
+        continue;
+      }
       $graph_store = new GraphStore($connect_string);
       $graph_store->insert($graph);
 
