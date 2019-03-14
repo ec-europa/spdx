@@ -3,4 +3,5 @@ type: module
 description: A license management module.
 core: 8.x
 package: Joinup
-dependencies: { }
+dependencies:
+  - rdf_entity:rdf_entity

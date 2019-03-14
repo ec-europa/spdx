@@ -3,6 +3,7 @@
     "description": "Allows to federate and manage the SPDX licences.",
     "type": "drupal-module",
     "require": {
+        "php": ">=7.1",
         "drupal/rdf_entity": ">=1.0.0-alpha12",
         "spdx/license-list-data": "master"
     },
