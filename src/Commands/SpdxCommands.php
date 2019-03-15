@@ -92,13 +92,14 @@ class SpdxCommands extends DrushCommands {
     foreach ($rdf_files as $rdf_file_path) {
       $graph = new Graph($graph_uri);
       $graph->parseFile($rdf_file_path);
-      // There is a file that includes all the licenses and we don't need to
-      // re-import them.
+      // Avoid files without any License entities and also the file that
+      // includes them all.
       // @see https://github.com/spdx/license-list-data/issues/48.
       $licenses = $graph->allOfType('http://spdx.org/rdf/terms#License');
       if (count($licenses) !== 1) {
         continue;
       }
+
       $graph_store->insert($graph);
       $count++;
       $this->logger()->success(dt('Imported file %file.', [
