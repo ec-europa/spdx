@@ -1,5 +1,6 @@
 services:
   spdx.commands:
     class: \Drupal\spdx\Commands\SpdxCommands
+    arguments: ['@sparql_endpoint']
     tags:
       - { name: drush.command }

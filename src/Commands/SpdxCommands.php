@@ -4,16 +4,14 @@ declare(strict_types = 1);
 
 namespace Drupal\spdx\Commands;
 
-use Composer\Autoload\ClassLoader;
 use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Database\Database;
 use Drupal\Driver\Database\sparql\Connection;
+use Drupal\rdf_entity\Database\Driver\sparql\ConnectionInterface;
 use Drupal\rdf_entity\RdfEntityGraphStoreTrait;
 use Drush\Commands\DrushCommands;
 use Drush\Exceptions\UserAbortException;
 use EasyRdf\Graph;
-use EasyRdf\GraphStore;
-use ReflectionClass;
 
 /**
  * Class SpdxCommands
@@ -21,6 +19,25 @@ use ReflectionClass;
 class SpdxCommands extends DrushCommands {
 
   use RdfEntityGraphStoreTrait;
+
+  /**
+   * The SPARQL Connection class.
+   *
+   * @var \Drupal\rdf_entity\Database\Driver\sparql\ConnectionInterface
+   */
+  protected $connection;
+
+  /**
+   * SpdxCommands constructor.
+   *
+   * @param \Drupal\rdf_entity\Database\Driver\sparql\ConnectionInterface $connection
+   *   The SPARQL connection class.
+   */
+  public function __construct(ConnectionInterface $connection) {
+    parent::__construct();
+    $this->connection = $connection;
+  }
+
 
   /**
    * Imports the SPDX licenses into the default SPARQL database.
@@ -59,7 +76,7 @@ class SpdxCommands extends DrushCommands {
 
     $graph_store = $this->createGraphStore();
     if ($options['clean']) {
-      $client = Connection::open(Database::getConnectionInfo('sparql_default')['default']);
+      $client = $this->connection->getSparqlClient();
       $client->clear($graph_uri);
       $this->logger()->success(dt('Graph has been cleaned.'));
     }
