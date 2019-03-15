@@ -1,11 +1,21 @@
 {
-    "name": "ec-europa/spdx",
+    "name": "drupal/spdx",
     "description": "Allows to federate and manage the SPDX licences.",
     "type": "drupal-module",
     "require": {
         "php": ">=7.1",
-        "drupal/rdf_entity": ">=1.0.0-alpha12",
+        "cweagans/composer-patches": "^1.6.4",
+        "drupal/rdf_entity": "^1.0.0-alpha12",
         "spdx/license-list-data": "master"
+    },
+    "extra": {
+        "enable-patching": true,
+        "composer-exit-on-patch-failure": 1,
+        "patches": {
+            "drupal/rdf_entity": {
+                "Allow access to the instantiated client object @see https://github.com/ec-europa/rdf_entity/pull/87": "https://patch-diff.githubusercontent.com/raw/ec-europa/rdf_entity/pull/87.diff"
+            }
+        }
     },
     "repositories": [
         {
@@ -21,4 +31,4 @@
             }
         }
     ]
-}
+},
