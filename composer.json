@@ -1,5 +1,5 @@
 {
-    "name": "ec-europa/spdx",
+    "name": "drupal/spdx",
     "description": "Allows to federate and manage the SPDX licences.",
     "type": "drupal-module",
     "require": {
