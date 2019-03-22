@@ -15,52 +15,8 @@ base_fields_mapping:
     target_id:
       predicate: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
       format: resource
-  uid:
-    target_id:
-      predicate: ''
-      format: ''
   label:
     value:
       predicate: 'http://spdx.org/rdf/terms#name'
       format: t_literal
-  created:
-    value:
-      predicate: ''
-      format: ''
-  changed:
-    value:
-      predicate: ''
-      format: ''
-  uuid:
-    value:
-      predicate: ''
-      format: ''
-  langcode:
-    value:
-      predicate: ''
-      format: ''
-  default_langcode:
-    value:
-      predicate: ''
-      format: ''
-  content_translation_source:
-    value:
-      predicate: ''
-      format: ''
-  content_translation_outdated:
-    value:
-      predicate: ''
-      format: ''
-  content_translation_uid:
-    target_id:
-      predicate: ''
-      format: ''
-  content_translation_status:
-    value:
-      predicate: ''
-      format: ''
-  graph:
-    target_id:
-      predicate: ''
-      format: ''
 entity_id_plugin: default
