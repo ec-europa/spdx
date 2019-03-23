@@ -17,7 +17,7 @@ base_fields_mapping:
       format: ''
   vid:
     target_id:
-      predicate: 'http://www.w3.org/2004/02/skos/core#inScheme'
+      predicate: 'http://www.w3.org/2004/02/skos/core#topConceptOf'
       format: resource
   langcode:
     value:
@@ -41,7 +41,7 @@ base_fields_mapping:
       format: ''
   parent:
     target_id:
-      predicate: 'http://www.w3.org/2004/02/skos/core#topConceptOf'
+      predicate: 'http://www.w3.org/2004/02/skos/core#broaderTransitive'
       format: resource
   changed:
     value:
