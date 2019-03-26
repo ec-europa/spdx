@@ -11,7 +11,6 @@ use Drupal\rdf_entity\Database\Driver\sparql\ConnectionInterface;
 use Drupal\rdf_entity\RdfEntityGraphStoreTrait;
 use Drush\Commands\DrushCommands;
 use Drush\Exceptions\UserAbortException;
-use Drush\Utils\StringUtils;
 use EasyRdf\Graph;
 
 /**
@@ -45,8 +44,6 @@ class SpdxCommands extends DrushCommands {
    *
    * @param string $graph_uri
    *   The graph to put the licenses in.
-   * @param string|null $licences
-   *   (optional) An array of licences separated by comma.
    * @param array $options
    *   An array of options.
    *
@@ -60,7 +57,7 @@ class SpdxCommands extends DrushCommands {
    * @throws \Drush\Exceptions\UserAbortException
    *   Thrown if the user cancels the command.
    */
-  public function importLicenses(string $graph_uri, string $licences = NULL, array $options = ['clean' => FALSE]): void {
+  public function importLicenses(string $graph_uri, array $options = ['clean' => FALSE]): void {
     if (!UrlHelper::isValid($graph_uri, ['absolute' => TRUE])) {
       throw new \InvalidArgumentException('Graph URI is not a valid URL');
     }
@@ -91,26 +88,8 @@ class SpdxCommands extends DrushCommands {
       ]));
     }
 
-    if (empty($licences)) {
-      $rdf_files_to_import = $rdf_files;
-    }
-    else {
-      $licences = StringUtils::csvToArray($licences);
-      $licences = array_map(function($licence) use ($spdx_source) {
-        return $spdx_source .  $licence . '.rdf';
-      }, $licences);
-      $invalid_licences = array_diff($licences, $rdf_files);
-      if (!empty($invalid_licences)) {
-        throw new \InvalidArgumentException(dt('Licence files not found: %licences.', [
-          '%licences' => implode(', ', $invalid_licences),
-        ]));
-      }
-
-      $rdf_files_to_import = $licences;
-    }
-
     $count = 0;
-    foreach ($rdf_files_to_import as $rdf_file_path) {
+    foreach ($rdf_files as $rdf_file_path) {
       $graph = new Graph($graph_uri);
       $graph->parseFile($rdf_file_path);
       // Avoid files without any License entities and also the file that
