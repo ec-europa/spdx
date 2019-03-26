@@ -11,7 +11,6 @@ use Behat\Gherkin\Node\TableNode;
 use Drupal\DrupalExtension\Context\DrupalSubContextBase;
 use Drupal\rdf_entity\Entity\Rdf;
 
-
 /**
  * Behat step definitions for the spdx module.
  */
@@ -20,7 +19,7 @@ class SpdxSubContext extends DrupalSubContextBase {
   /**
    * Test licences.
    *
-   * @var \Drupal\rdf_entity\Entity\Rdf[]
+   * @var \Drupal\rdf_entity\RdfInterface[]
    */
   protected $licences = [];
 
@@ -42,12 +41,37 @@ class SpdxSubContext extends DrupalSubContextBase {
    * @Given (the following )SPDX licences:
    */
   public function givenSpdxLicences(TableNode $data) {
+    $aliases = self::spdxFieldAliases();
     foreach ($data->getColumnsHash() as $licence_data) {
-      $licence_data += ['rid' => 'spdx_licence'];
-      $licence = Rdf::create($licence_data);
+      $values = [];
+      // Replace the column aliases with the actual field names.
+      foreach ($licence_data as $key => $value) {
+        if (array_key_exists($key, $aliases)) {
+          $values[$aliases[$key]] = $value;
+        }
+        else {
+          throw new \Exception("Unknown column '$key' in the data table.");
+        }
+      };
+
+      $values += ['rid' => 'spdx_licence'];
+      $licence = Rdf::create($values);
       $licence->save();
       $this->licences[$licence->id()] = $licence;
     }
+  }
+
+  /**
+   * Returns the field alias mapping.
+   *
+   * @return array
+   *   The field alias mapping.
+   */
+  protected static function spdxFieldAliases() {
+    // Mapping alias - field name.
+    return [
+      'title' => 'label',
+    ];
   }
 
   /**

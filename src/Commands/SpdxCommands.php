@@ -45,8 +45,8 @@ class SpdxCommands extends DrushCommands {
    *
    * @param string $graph_uri
    *   The graph to put the licenses in.
-   * @param string $licences
-   *   An array of licences separated by comma.
+   * @param string|null $licences
+   *   (optional) An array of licences separated by comma.
    * @param array $options
    *   An array of options.
    *
