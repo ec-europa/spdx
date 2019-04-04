@@ -1,4 +1,4 @@
-name: SPDX Licenses
+name: SPDX Licences
 type: module
 description: 'A license management module.'
 core: 8.x

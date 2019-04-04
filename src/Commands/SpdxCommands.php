@@ -14,7 +14,7 @@ use Drush\Exceptions\UserAbortException;
 use EasyRdf\Graph;
 
 /**
- * Class SpdxCommands
+ * Drush commands for the SPDX Licences module.
  */
 class SpdxCommands extends DrushCommands {
 

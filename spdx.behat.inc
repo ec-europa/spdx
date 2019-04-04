@@ -12,7 +12,7 @@ use Drupal\DrupalExtension\Context\DrupalSubContextBase;
 use Drupal\rdf_entity\Entity\Rdf;
 
 /**
- * Behat step definitions for the spdx module.
+ * Behat step definitions for the SPDX Licences module.
  */
 class SpdxSubContext extends DrupalSubContextBase {
 
@@ -33,10 +33,10 @@ class SpdxSubContext extends DrupalSubContextBase {
    * @codingStandardsIgnoreEnd
    *
    * @param \Behat\Gherkin\Node\TableNode $data
-   *   The collection data.
+   *   The data for the licences to create, in table format.
    *
    * @throws \Exception
-   *   Thrown when a column name is incorrect.
+   *   Thrown when a column has a title that is not recognized.
    *
    * @Given (the following )SPDX licences:
    */
@@ -44,7 +44,7 @@ class SpdxSubContext extends DrupalSubContextBase {
     $aliases = self::spdxFieldAliases();
     foreach ($data->getColumnsHash() as $licence_data) {
       $values = [];
-      // Replace the column aliases with the actual field names.
+      // Replace the human readable aliases with the field machine names.
       foreach ($licence_data as $key => $value) {
         if (array_key_exists($key, $aliases)) {
           $values[$aliases[$key]] = $value;
@@ -79,6 +79,9 @@ class SpdxSubContext extends DrupalSubContextBase {
    *
    * @param string $licence
    *   The SPDX licence label.
+   *
+   * @throws \Exception
+   *   Thrown when the licence does not exist, or cannot be loaded.
    *
    * @Given I visit the :licence SPDX licence
    * @Given I go to the( homepage of the) :licence SPDX licence
