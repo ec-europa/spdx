@@ -10,6 +10,7 @@ declare(strict_types = 1);
 use Behat\Gherkin\Node\TableNode;
 use Drupal\DrupalExtension\Context\DrupalSubContextBase;
 use Drupal\rdf_entity\Entity\Rdf;
+use Drupal\rdf_entity\RdfEntitySparqlStorageInterface;
 
 /**
  * Behat step definitions for the SPDX Licences module.
@@ -17,7 +18,17 @@ use Drupal\rdf_entity\Entity\Rdf;
 class SpdxSubContext extends DrupalSubContextBase {
 
   /**
-   * Test licences.
+   * Mapping of human readable field labels to machine names.
+   */
+  protected const FIELD_ALIASES = [
+    'ID' => 'field_spdx_licence_id',
+    'title' => 'label',
+    'see also' => 'field_spdx_see_also',
+    'text' => 'field_spdx_licence_text',
+  ];
+
+  /**
+   * Keeps track of licences created during the scenario, for later cleanup.
    *
    * @var \Drupal\rdf_entity\RdfInterface[]
    */
@@ -28,8 +39,8 @@ class SpdxSubContext extends DrupalSubContextBase {
    *
    * Table format:
    * @codingStandardsIgnoreStart
-   * | label          |
-   * | Licence name 1 |
+   * | title       | ID  | see also                                                                                         | text                                                                                               |
+   * | MIT License | MIT | opensource.org - https://opensource.org/licenses/MIT, mit-license.org - https://mit-license.org/ | "MIT License\n\nCopyright ©2019\n\nPermission is hereby granted, free of charge, to any person..." |
    * @codingStandardsIgnoreEnd
    *
    * @param \Behat\Gherkin\Node\TableNode $data
@@ -40,38 +51,21 @@ class SpdxSubContext extends DrupalSubContextBase {
    *
    * @Given (the following )SPDX licences:
    */
-  public function givenSpdxLicences(TableNode $data) {
-    $aliases = self::spdxFieldAliases();
+  public function givenSpdxLicences(TableNode $data): void {
+    $aliases = self::FIELD_ALIASES;
     foreach ($data->getColumnsHash() as $licence_data) {
-      $values = [];
+      $values = (object) ['rid' => 'spdx_licence'];
+
       // Replace the human readable aliases with the field machine names.
       foreach ($licence_data as $key => $value) {
-        if (array_key_exists($key, $aliases)) {
-          $values[$aliases[$key]] = $value;
-        }
-        else {
+        if (!array_key_exists($key, $aliases)) {
           throw new \Exception("Unknown column '$key' in the data table.");
         }
+        $values->{$aliases[$key]} = $value;
       };
 
-      $values += ['rid' => 'spdx_licence'];
-      $licence = Rdf::create($values);
-      $licence->save();
-      $this->licences[$licence->id()] = $licence;
+      $this->createLicence($values);
     }
-  }
-
-  /**
-   * Returns the field alias mapping.
-   *
-   * @return array
-   *   The field alias mapping.
-   */
-  protected static function spdxFieldAliases() {
-    // Mapping alias - field name.
-    return [
-      'title' => 'label',
-    ];
   }
 
   /**
@@ -104,11 +98,43 @@ class SpdxSubContext extends DrupalSubContextBase {
   /**
    * Removes any created SPDX licences.
    *
+   * @throws \Drupal\Core\Entity\EntityStorageException
+   *   Thrown when one or more licences cannot be deleted.
+   *
    * @AfterScenario
    */
   public function cleanSpdxLicences() {
-    foreach ($this->licences as $licence) {
-      $licence->delete();
+    $this->getRdfStorage()->delete($this->licences);
+  }
+
+  /**
+   * Creates a licence from the given value object.
+   *
+   * @param \stdClass $values
+   *   A value object as used internally by Behat Drupal Extension.
+   *
+   * @throws \Exception
+   *   Thrown when a field name is invalid.
+   */
+  protected function createLicence(\stdClass $values): void {
+    // Convert line breaks in the licence text.
+    if (!empty($values->field_spdx_licence_text)) {
+      $values->field_spdx_licence_text = nl2br(str_replace('\n', "\n", $values->field_spdx_licence_text));
     }
+
+    $this->parseEntityFields('rdf_entity', $values);
+    $entity_id = $this->getDriver()->createEntity('rdf_entity', $values)->id;
+
+    $this->licences[] = $this->getRdfStorage()->load($entity_id);
+  }
+
+  /**
+   * Returns the RDF Entity storage handler.
+   *
+   * @return \Drupal\rdf_entity\RdfEntitySparqlStorageInterface
+   *   The storage handler.
+   */
+  protected function getRdfStorage(): RdfEntitySparqlStorageInterface {
+    return \Drupal::entityTypeManager()->getStorage('rdf_entity');
   }
 }
