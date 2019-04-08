@@ -5,8 +5,6 @@ declare(strict_types = 1);
 namespace Drupal\spdx\Commands;
 
 use Drupal\Component\Utility\UrlHelper;
-use Drupal\Core\Database\Database;
-use Drupal\Driver\Database\sparql\Connection;
 use Drupal\rdf_entity\Database\Driver\sparql\ConnectionInterface;
 use Drupal\rdf_entity\RdfEntityGraphStoreTrait;
 use Drush\Commands\DrushCommands;
@@ -14,7 +12,7 @@ use Drush\Exceptions\UserAbortException;
 use EasyRdf\Graph;
 
 /**
- * Class SpdxCommands
+ * Drush commands for the SPDX Licences module.
  */
 class SpdxCommands extends DrushCommands {
 
@@ -37,7 +35,6 @@ class SpdxCommands extends DrushCommands {
     parent::__construct();
     $this->connection = $connection;
   }
-
 
   /**
    * Imports the SPDX licenses into the default SPARQL database.
