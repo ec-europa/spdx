@@ -27,3 +27,7 @@ base_fields_mapping:
     target_id:
       predicate: 'http://www.w3.org/2004/02/skos/core#broaderTransitive'
       format: resource
+  weight:
+    value:
+      predicate: 'http://joinup.eu/skos#weight'
+      format: 'xsd:integer'
