@@ -21,6 +21,7 @@ class SpdxSubContext extends DrupalSubContextBase {
    * Mapping of human readable field labels to machine names.
    */
   protected const FIELD_ALIASES = [
+    'uri' => 'id',
     'ID' => 'field_spdx_licence_id',
     'title' => 'label',
     'see also' => 'field_spdx_see_also',
