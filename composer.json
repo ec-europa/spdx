@@ -4,7 +4,7 @@
     "type": "drupal-module",
     "require": {
         "php": ">=7.1",
-        "drupal/rdf_entity": "dev-2split",
+        "drupal/rdf_entity": "1.x-dev",
         "spdx/license-list-data": "master"
     },
     "repositories": [
