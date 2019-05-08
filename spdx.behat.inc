@@ -10,7 +10,7 @@ declare(strict_types = 1);
 use Behat\Gherkin\Node\TableNode;
 use Drupal\DrupalExtension\Context\DrupalSubContextBase;
 use Drupal\rdf_entity\Entity\Rdf;
-use Drupal\rdf_entity\RdfEntitySparqlStorageInterface;
+use Drupal\sparql_entity_storage\SparqlEntityStorageInterface;
 
 /**
  * Behat step definitions for the SPDX Licences module.
@@ -132,10 +132,10 @@ class SpdxSubContext extends DrupalSubContextBase {
   /**
    * Returns the RDF Entity storage handler.
    *
-   * @return \Drupal\rdf_entity\RdfEntitySparqlStorageInterface
+   * @return \Drupal\sparql_entity_storage\SparqlEntityStorageInterface
    *   The storage handler.
    */
-  protected function getRdfStorage(): RdfEntitySparqlStorageInterface {
+  protected function getRdfStorage(): SparqlEntityStorageInterface {
     return \Drupal::entityTypeManager()->getStorage('rdf_entity');
   }
 }
