@@ -6,7 +6,7 @@ namespace Drupal\spdx\Commands;
 
 use Drupal\Component\Utility\UrlHelper;
 use Drupal\rdf_entity\Database\Driver\sparql\ConnectionInterface;
-use Drupal\rdf_entity\RdfEntityGraphStoreTrait;
+use Drupal\sparql_entity_storage\SparqlGraphStoreTrait;
 use Drush\Commands\DrushCommands;
 use Drush\Exceptions\UserAbortException;
 use EasyRdf\Graph;
@@ -16,7 +16,7 @@ use EasyRdf\Graph;
  */
 class SpdxCommands extends DrushCommands {
 
-  use RdfEntityGraphStoreTrait;
+  use SparqlGraphStoreTrait;
 
   /**
    * The SPARQL Connection class.

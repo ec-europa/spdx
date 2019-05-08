@@ -21,7 +21,7 @@ config_devel:
     - field.storage.rdf_entity.field_spdx_licence_id
     - field.storage.rdf_entity.field_spdx_licence_text
     - field.storage.rdf_entity.field_spdx_see_also
-    - rdf_entity.mapping.rdf_entity.spdx_licence
-    - rdf_entity.mapping.taxonomy_term.legal_type
     - rdf_entity.rdfentity.spdx_licence
+    - sparql_entity_storage.mapping.rdf_entity.spdx_licence
+    - sparql_entity_storage.mapping.taxonomy_term.legal_type
     - taxonomy.vocabulary.legal_type
