@@ -5,8 +5,8 @@ declare(strict_types = 1);
 namespace Drupal\spdx\Commands;
 
 use Drupal\Component\Utility\UrlHelper;
-use Drupal\rdf_entity\Database\Driver\sparql\ConnectionInterface;
-use Drupal\rdf_entity\RdfEntityGraphStoreTrait;
+use Drupal\sparql_entity_storage\Database\Driver\sparql\ConnectionInterface;
+use Drupal\sparql_entity_storage\SparqlGraphStoreTrait;
 use Drush\Commands\DrushCommands;
 use Drush\Exceptions\UserAbortException;
 use EasyRdf\Graph;
@@ -16,19 +16,19 @@ use EasyRdf\Graph;
  */
 class SpdxCommands extends DrushCommands {
 
-  use RdfEntityGraphStoreTrait;
+  use SparqlGraphStoreTrait;
 
   /**
    * The SPARQL Connection class.
    *
-   * @var \Drupal\rdf_entity\Database\Driver\sparql\ConnectionInterface
+   * @var \Drupal\sparql_entity_storage\Database\Driver\sparql\ConnectionInterface
    */
   protected $connection;
 
   /**
    * SpdxCommands constructor.
    *
-   * @param \Drupal\rdf_entity\Database\Driver\sparql\ConnectionInterface $connection
+   * @param \Drupal\sparql_entity_storage\Database\Driver\sparql\ConnectionInterface $connection
    *   The SPARQL connection class.
    */
   public function __construct(ConnectionInterface $connection) {

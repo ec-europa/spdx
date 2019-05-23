@@ -2,7 +2,7 @@ langcode: en
 status: true
 dependencies:
   config:
-    - rdf_entity.graph.default
+    - sparql_entity_storage.graph.default
     - rdf_entity.rdfentity.spdx_licence
 id: rdf_entity.spdx_licence
 entity_type_id: rdf_entity

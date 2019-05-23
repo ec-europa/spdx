@@ -2,7 +2,7 @@ langcode: en
 status: true
 dependencies:
   config:
-    - rdf_entity.graph.default
+    - sparql_entity_storage.graph.default
     - taxonomy.vocabulary.legal_type
 id: taxonomy_term.legal_type
 entity_type_id: taxonomy_term
