@@ -12,22 +12,32 @@ graph:
   default: 'http://licence-legal-type'
 base_fields_mapping:
   vid:
-    target_id:
-      predicate: 'http://www.w3.org/2004/02/skos/core#topConceptOf'
-      format: resource
+    field: null
+    columns:
+      target_id:
+        predicate: 'http://www.w3.org/2004/02/skos/core#topConceptOf'
+        format: resource
   name:
-    value:
-      predicate: 'http://www.w3.org/2004/02/skos/core#prefLabel'
-      format: t_literal
+    field: null
+    columns:
+      value:
+        predicate: 'http://www.w3.org/2004/02/skos/core#prefLabel'
+        format: t_literal
   description:
-    value:
-      predicate: 'http://www.w3.org/2004/02/skos/core#definition'
-      format: t_literal
+    field: null
+    columns:
+      value:
+        predicate: 'http://www.w3.org/2004/02/skos/core#definition'
+        format: t_literal
   parent:
-    target_id:
-      predicate: 'http://www.w3.org/2004/02/skos/core#broaderTransitive'
-      format: resource
+    field: null
+    columns:
+      target_id:
+        predicate: 'http://www.w3.org/2004/02/skos/core#broaderTransitive'
+        format: resource
   weight:
-    value:
-      predicate: 'http://joinup.eu/skos#weight'
-      format: 'xsd:integer'
+    field: null
+    columns:
+      value:
+        predicate: 'http://joinup.eu/skos#weight'
+        format: 'xsd:integer'
