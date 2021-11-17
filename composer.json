@@ -1,6 +1,7 @@
 {
     "name": "ec-europa/spdx",
     "description": "Allows to federate and manage the SPDX licences.",
+    "license": "GPL-2.0-or-later",
     "type": "drupal-module",
     "require": {
         "php": ">=7.1",
